@@ -1,0 +1,1188 @@
+
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار النظري – دورة تدريب القيادة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–navy:    #1a3a5c;
+–navy2:   #0f2540;
+–blue:    #2e6da4;
+–orange:  #e8832a;
+–gold:    #f5c518;
+–white:   #ffffff;
+–off:     #f4f7fb;
+–gray:    #64748b;
+–light:   #e2eaf3;
+–green:   #16a34a;
+–green-bg:#dcfce7;
+–red:     #dc2626;
+–red-bg:  #fee2e2;
+}
+
+html { scroll-behavior: smooth; }
+body {
+font-family: ‘Cairo’, sans-serif;
+background: var(–off);
+color: var(–navy);
+min-height: 100vh;
+direction: rtl;
+}
+
+/* ── Header ── */
+.header {
+background: linear-gradient(135deg, var(–navy2) 0%, var(–navy) 60%, var(–blue) 100%);
+padding: 28px 20px 40px;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+
+.header::after {
+content: ‘’;
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 5px;
+background: repeating-linear-gradient(90deg,
+var(–gold) 0, var(–gold) 36px,
+transparent 36px, transparent 72px);
+opacity: 0.7;
+}
+
+.header-badge {
+display: inline-block;
+background: rgba(232,131,42,0.18);
+border: 1px solid rgba(232,131,42,0.4);
+color: var(–gold);
+font-size: 11px;
+font-weight: 700;
+padding: 4px 14px;
+border-radius: 50px;
+margin-bottom: 12px;
+letter-spacing: 0.5px;
+}
+
+.header h1 {
+font-size: clamp(22px, 4vw, 34px);
+font-weight: 900;
+color: var(–white);
+margin-bottom: 6px;
+}
+
+.header h1 span { color: var(–orange); }
+
+.header p {
+font-size: 13px;
+color: rgba(255,255,255,0.65);
+}
+
+/* ── Progress bar ── */
+.progress-wrap {
+max-width: 680px;
+margin: -18px auto 0;
+padding: 0 16px;
+position: relative;
+z-index: 2;
+}
+
+.progress-card {
+background: var(–white);
+border-radius: 16px;
+box-shadow: 0 4px 20px rgba(26,58,92,0.12);
+padding: 16px 20px;
+display: flex;
+align-items: center;
+gap: 16px;
+}
+
+.progress-info {
+flex: 1;
+}
+
+.progress-label {
+font-size: 12px;
+color: var(–gray);
+margin-bottom: 6px;
+}
+
+.progress-bar-track {
+height: 8px;
+background: var(–light);
+border-radius: 50px;
+overflow: hidden;
+}
+
+.progress-bar-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–blue), var(–orange));
+border-radius: 50px;
+transition: width 0.5s ease;
+width: 0%;
+}
+
+.progress-counter {
+text-align: center;
+min-width: 52px;
+}
+
+.progress-counter .num {
+font-size: 22px;
+font-weight: 900;
+color: var(–navy);
+line-height: 1;
+}
+
+.progress-counter .num span { color: var(–orange); }
+
+.progress-counter .lbl {
+font-size: 10px;
+color: var(–gray);
+margin-top: 2px;
+}
+
+.timer-wrap {
+display: flex;
+flex-direction: column;
+align-items: center;
+min-width: 52px;
+}
+
+.timer-circle {
+width: 48px; height: 48px;
+border-radius: 50%;
+background: conic-gradient(var(–orange) 0deg, var(–light) 0deg);
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+transition: background 0.5s;
+}
+
+.timer-inner {
+width: 36px; height: 36px;
+background: var(–white);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 13px;
+font-weight: 900;
+color: var(–navy);
+}
+
+.timer-lbl {
+font-size: 9px;
+color: var(–gray);
+margin-top: 3px;
+}
+
+/* ── Main ── */
+.main {
+max-width: 680px;
+margin: 0 auto;
+padding: 20px 16px 60px;
+}
+
+/* ── Question card ── */
+.question-card {
+background: var(–white);
+border-radius: 20px;
+box-shadow: 0 2px 16px rgba(26,58,92,0.08);
+overflow: hidden;
+margin-bottom: 16px;
+display: none;
+animation: fadeSlide 0.35s ease;
+}
+
+.question-card.active { display: block; }
+
+@keyframes fadeSlide {
+from { opacity: 0; transform: translateX(-16px); }
+to   { opacity: 1; transform: translateX(0); }
+}
+
+.q-header {
+background: var(–off);
+border-bottom: 1px solid var(–light);
+padding: 14px 20px;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.q-number {
+width: 32px; height: 32px;
+background: var(–navy);
+color: white;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 13px;
+font-weight: 900;
+flex-shrink: 0;
+}
+
+.q-category {
+font-size: 11px;
+font-weight: 700;
+color: var(–orange);
+background: rgba(232,131,42,0.1);
+padding: 2px 10px;
+border-radius: 50px;
+}
+
+.q-body { padding: 22px 20px; }
+
+.q-text {
+font-size: 16px;
+font-weight: 700;
+color: var(–navy);
+line-height: 1.6;
+margin-bottom: 20px;
+}
+
+.q-image {
+width: 100%;
+max-height: 120px;
+object-fit: contain;
+margin-bottom: 16px;
+background: var(–off);
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+}
+
+/* Sign SVG inside question */
+.sign-display {
+display: flex;
+justify-content: center;
+margin-bottom: 18px;
+}
+
+.sign-display svg {
+width: 90px;
+height: 90px;
+filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
+}
+
+/* ── Options ── */
+.options { display: grid; gap: 10px; }
+
+.option {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 13px 16px;
+border: 2px solid var(–light);
+border-radius: 12px;
+cursor: pointer;
+transition: all 0.2s;
+background: var(–off);
+font-size: 14px;
+font-weight: 500;
+color: var(–navy);
+position: relative;
+user-select: none;
+}
+
+.option:hover:not(.disabled) {
+border-color: var(–blue);
+background: white;
+transform: translateX(-2px);
+}
+
+.option-letter {
+width: 28px; height: 28px;
+border: 2px solid var(–light);
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 12px;
+font-weight: 900;
+color: var(–gray);
+flex-shrink: 0;
+transition: all 0.2s;
+background: white;
+}
+
+.option.selected {
+border-color: var(–blue);
+background: rgba(46,109,164,0.07);
+}
+
+.option.selected .option-letter {
+background: var(–blue);
+border-color: var(–blue);
+color: white;
+}
+
+.option.correct {
+border-color: var(–green) !important;
+background: var(–green-bg) !important;
+}
+
+.option.correct .option-letter {
+background: var(–green) !important;
+border-color: var(–green) !important;
+color: white !important;
+}
+
+.option.wrong {
+border-color: var(–red) !important;
+background: var(–red-bg) !important;
+}
+
+.option.wrong .option-letter {
+background: var(–red) !important;
+border-color: var(–red) !important;
+color: white !important;
+}
+
+.option.disabled { cursor: not-allowed; opacity: 0.7; }
+
+.option-icon {
+position: absolute;
+left: 14px;
+font-size: 16px;
+display: none;
+}
+
+.option.correct .option-icon,
+.option.wrong .option-icon { display: block; }
+
+/* ── Explanation ── */
+.explanation {
+margin-top: 14px;
+padding: 12px 16px;
+border-radius: 10px;
+font-size: 13px;
+line-height: 1.7;
+display: none;
+}
+
+.explanation.show { display: block; }
+.explanation.correct-exp { background: var(–green-bg); border: 1px solid #86efac; color: #166534; }
+.explanation.wrong-exp   { background: var(–red-bg);   border: 1px solid #fca5a5; color: #991b1b; }
+
+/* ── Navigation ── */
+.nav-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: 20px;
+gap: 12px;
+}
+
+.btn-nav {
+padding: 12px 24px;
+border: none;
+border-radius: 10px;
+font-family: ‘Cairo’, sans-serif;
+font-size: 14px;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.btn-prev {
+background: var(–light);
+color: var(–navy);
+}
+
+.btn-prev:hover { background: var(–blue); color: white; }
+
+.btn-next {
+background: linear-gradient(135deg, var(–navy) 0%, var(–blue) 100%);
+color: white;
+flex: 1;
+box-shadow: 0 3px 12px rgba(26,58,92,0.2);
+}
+
+.btn-next:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(26,58,92,0.3); }
+.btn-next:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+.btn-submit-quiz {
+width: 100%;
+padding: 15px;
+background: linear-gradient(135deg, var(–orange) 0%, #c96e1e 100%);
+color: white;
+border: none;
+border-radius: 12px;
+font-family: ‘Cairo’, sans-serif;
+font-size: 16px;
+font-weight: 900;
+cursor: pointer;
+box-shadow: 0 4px 16px rgba(232,131,42,0.35);
+transition: all 0.2s;
+display: none;
+}
+
+.btn-submit-quiz:hover { transform: translateY(-1px); }
+
+/* ── Question dots ── */
+.q-dots {
+display: flex;
+gap: 6px;
+flex-wrap: wrap;
+justify-content: center;
+margin-bottom: 16px;
+}
+
+.q-dot {
+width: 28px; height: 28px;
+border-radius: 50%;
+border: 2px solid var(–light);
+background: var(–white);
+font-size: 11px;
+font-weight: 700;
+color: var(–gray);
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.q-dot.current  { border-color: var(–blue); background: var(–blue); color: white; }
+.q-dot.answered-correct { border-color: var(–green); background: var(–green); color: white; }
+.q-dot.answered-wrong   { border-color: var(–red);   background: var(–red);   color: white; }
+
+/* ── Results screen ── */
+.results-screen {
+display: none;
+animation: fadeSlide 0.4s ease;
+}
+
+.results-screen.show { display: block; }
+
+.results-hero {
+text-align: center;
+padding: 32px 20px 24px;
+background: var(–white);
+border-radius: 20px;
+box-shadow: 0 2px 16px rgba(26,58,92,0.08);
+margin-bottom: 16px;
+}
+
+.score-ring {
+width: 140px; height: 140px;
+margin: 0 auto 20px;
+position: relative;
+}
+
+.score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+.score-ring circle.track {
+fill: none;
+stroke: var(–light);
+stroke-width: 10;
+}
+
+.score-ring circle.fill {
+fill: none;
+stroke-width: 10;
+stroke-linecap: round;
+transition: stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.score-label {
+position: absolute;
+inset: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+
+.score-pct {
+font-size: 32px;
+font-weight: 900;
+line-height: 1;
+}
+
+.score-sub {
+font-size: 11px;
+color: var(–gray);
+margin-top: 2px;
+}
+
+.result-title {
+font-size: 24px;
+font-weight: 900;
+margin-bottom: 6px;
+}
+
+.result-sub {
+font-size: 14px;
+color: var(–gray);
+margin-bottom: 20px;
+}
+
+.result-stats {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+margin-bottom: 20px;
+}
+
+.stat-box {
+background: var(–off);
+border-radius: 12px;
+padding: 14px 8px;
+text-align: center;
+}
+
+.stat-box .s-num {
+font-size: 26px;
+font-weight: 900;
+line-height: 1;
+}
+
+.stat-box .s-lbl {
+font-size: 11px;
+color: var(–gray);
+margin-top: 4px;
+}
+
+.stat-box.correct .s-num { color: var(–green); }
+.stat-box.wrong   .s-num { color: var(–red); }
+.stat-box.time-s  .s-num { color: var(–blue); }
+
+.btn-retry {
+width: 100%;
+padding: 14px;
+background: var(–navy);
+color: white;
+border: none;
+border-radius: 12px;
+font-family: ‘Cairo’, sans-serif;
+font-size: 15px;
+font-weight: 700;
+cursor: pointer;
+margin-bottom: 10px;
+transition: all 0.2s;
+}
+
+.btn-retry:hover { background: var(–blue); }
+
+/* Review section */
+.review-list { display: grid; gap: 12px; }
+
+.review-item {
+background: var(–white);
+border-radius: 14px;
+box-shadow: 0 2px 10px rgba(26,58,92,0.07);
+overflow: hidden;
+}
+
+.review-item-header {
+padding: 12px 16px;
+display: flex;
+align-items: center;
+gap: 10px;
+border-bottom: 1px solid var(–light);
+}
+
+.review-status {
+width: 26px; height: 26px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 13px;
+flex-shrink: 0;
+}
+
+.review-status.c { background: var(–green-bg); }
+.review-status.w { background: var(–red-bg); }
+
+.review-q-text {
+font-size: 13px;
+font-weight: 600;
+color: var(–navy);
+flex: 1;
+line-height: 1.4;
+}
+
+.review-item-body {
+padding: 12px 16px;
+font-size: 12px;
+color: var(–gray);
+line-height: 1.7;
+}
+
+.review-answer {
+display: flex;
+gap: 8px;
+margin-top: 6px;
+font-size: 12px;
+}
+
+.ra-label { font-weight: 700; }
+.ra-val-correct { color: var(–green); font-weight: 700; }
+.ra-val-wrong   { color: var(–red);   font-weight: 700; }
+</style>
+
+</head>
+<body>
+
+<!-- Header -->
+
+<div class="header">
+  <div class="header-badge">📋 الحصة الخامسة</div>
+  <h1>الاختبار <span>النظري</span></h1>
+  <p>١٠ أسئلة – أجيبي على جميع الأسئلة لإنهاء الاختبار</p>
+</div>
+
+<!-- Progress -->
+
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div class="progress-counter">
+      <div class="num"><span id="q-current">1</span>/10</div>
+      <div class="lbl">سؤال</div>
+    </div>
+    <div class="progress-info">
+      <div class="progress-label" id="progress-text">ابدئي الاختبار</div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+    <div class="timer-wrap">
+      <div class="timer-circle" id="timer-circle">
+        <div class="timer-inner" id="timer-num">30</div>
+      </div>
+      <div class="timer-lbl">ثانية</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main -->
+
+<div class="main">
+
+  <!-- Question dots -->
+
+  <div class="q-dots" id="q-dots"></div>
+
+  <!-- Questions container -->
+
+  <div id="questions-container"></div>
+
+  <!-- Navigation -->
+
+  <div class="nav-row" id="nav-row">
+    <button class="btn-nav btn-prev" id="btn-prev" onclick="goQuestion(-1)">← السابق</button>
+    <button class="btn-nav btn-next" id="btn-next" onclick="goQuestion(1)">التالي ←</button>
+  </div>
+  <button class="btn-submit-quiz" id="btn-submit" onclick="submitQuiz()">
+    ✅ إنهاء الاختبار وعرض النتيجة
+  </button>
+
+  <!-- Results -->
+
+  <div class="results-screen" id="results-screen">
+    <div class="results-hero">
+      <div class="score-ring">
+        <svg viewBox="0 0 140 140">
+          <circle class="track" cx="70" cy="70" r="60"/>
+          <circle class="fill" id="score-circle" cx="70" cy="70" r="60"
+            stroke-dasharray="377" stroke-dashoffset="377"/>
+        </svg>
+        <div class="score-label">
+          <div class="score-pct" id="score-pct">0%</div>
+          <div class="score-sub">النتيجة</div>
+        </div>
+      </div>
+      <div class="result-title" id="result-title">—</div>
+      <div class="result-sub" id="result-sub">—</div>
+      <div class="result-stats">
+        <div class="stat-box correct">
+          <div class="s-num" id="r-correct">—</div>
+          <div class="s-lbl">إجابات صحيحة</div>
+        </div>
+        <div class="stat-box wrong">
+          <div class="s-num" id="r-wrong">—</div>
+          <div class="s-lbl">إجابات خاطئة</div>
+        </div>
+        <div class="stat-box time-s">
+          <div class="s-num" id="r-time">—</div>
+          <div class="s-lbl">وقت الإنهاء</div>
+        </div>
+      </div>
+      <button class="btn-retry" onclick="retryQuiz()">🔄 إعادة الاختبار</button>
+    </div>
+
+```
+<div style="font-size:13px;font-weight:700;color:var(--gray);margin:20px 0 10px;padding-right:4px;">
+  مراجعة الإجابات:
+</div>
+<div class="review-list" id="review-list"></div>
+```
+
+  </div>
+
+</div>
+
+<script>
+// ── Questions data ──────────────────────────────────────────────────────────
+const QUESTIONS = [
+  {
+    category: 'إشارات المرور',
+    text: 'ماذا تعني إشارة المرور الحمراء؟',
+    sign: 'red_light',
+    options: ['تباطأ وكن حذراً', 'قف تماماً وانتظر', 'استعد للانطلاق', 'سر بحذر شديد'],
+    correct: 1,
+    explanation: 'الضوء الأحمر يعني التوقف التام حتى يتحول إلى أخضر. التجاهل يعرضك للخطر ويخالف نظام المرور.'
+  },
+  {
+    category: 'قواعد الطريق',
+    text: 'ما هو الإجراء الصحيح عند رؤية علامة "قف" (STOP)؟',
+    sign: 'stop',
+    options: [
+      'خفف السرعة ثم أكمل إذا كان الطريق خالياً',
+      'التوقف التام ثم الانطلاق بعد التأكد من خلو الطريق',
+      'أعطِ إشارة ثم تابع السير',
+      'أعطِ الأولوية للسيارات اليمين فقط'
+    ],
+    correct: 1,
+    explanation: 'علامة STOP تستوجب التوقف التام – حتى لو بدا الطريق خالياً. يجب التوقف الكامل ثم التأكد من خلو الطريق.'
+  },
+  {
+    category: 'أجزاء السيارة',
+    text: 'ما وظيفة "عداد الطبلون" داخل السيارة؟',
+    sign: null,
+    options: [
+      'التحكم في الإضاءة',
+      'ضبط حرارة المكيف',
+      'يوضح مستوى الوقود وحرارة المحرك والسرعة',
+      'التحكم في صوت الراديو'
+    ],
+    correct: 2,
+    explanation: 'عداد الطبلون (لوحة العدادات) يعرض لك معلومات حيوية: سرعة السيارة، مستوى الوقود، ودرجة حرارة المحرك.'
+  },
+  {
+    category: 'السلامة',
+    text: 'متى يجب ارتداء حزام الأمان؟',
+    sign: null,
+    options: [
+      'فقط في الرحلات الطويلة',
+      'عند السير بسرعة عالية',
+      'قبل الانطلاق مباشرةً، في جميع الأوقات',
+      'فقط على الطرق السريعة'
+    ],
+    correct: 2,
+    explanation: 'حزام الأمان يجب ارتداؤه دائماً وقبل تحريك السيارة – حتى في الرحلات القصيرة. يحمي من الوفاة في الحوادث بنسبة 50%.'
+  },
+  {
+    category: 'إشارات المرور',
+    text: 'ماذا تعني العلامة المثلثة الصفراء اللون؟',
+    sign: 'warn_triangle',
+    options: [
+      'ممنوع المرور من هذه المنطقة',
+      'تحذير من خطر أو ظرف خاص أمامك',
+      'إلزام بالانعطاف',
+      'منطقة وقوف السيارات'
+    ],
+    correct: 1,
+    explanation: 'المثلث الأصفر علامة تحذيرية تنبهك لخطر قادم مثل منحنى حاد أو تقاطع أو مدرسة. خفف سرعتك وكن حذرة.'
+  },
+  {
+    category: 'قواعد الطريق',
+    text: 'ما المسافة الآمنة الواجب تركها بين سيارتك والسيارة أمامك؟',
+    sign: null,
+    options: [
+      'متر واحد فقط',
+      'ثلاثة أمتار دائماً',
+      'مسافة تكفي للتوقف بأمان في حالات الطوارئ (3 ثوانٍ على الأقل)',
+      'لا يهم المسافة إذا كانت سرعتك منخفضة'
+    ],
+    correct: 2,
+    explanation: 'قاعدة "3 ثوانٍ": اختر نقطة ثابتة على الطريق – يجب أن تمر 3 ثوانٍ على الأقل بين اجتياز السيارة أمامك لتلك النقطة واجتيازك لها.'
+  },
+  {
+    category: 'المناورات',
+    text: 'ما الإجراء الصحيح قبل تغيير المسار على الطريق؟',
+    sign: null,
+    options: [
+      'تغيير المسار مباشرةً إذا كان الطريق واسعاً',
+      'الضغط على البوق ثم التحرك',
+      'تشغيل إشارة الاتجاه (الفليشر) ثم التحقق من المرايا والنقاط العمياء',
+      'تخفيف السرعة فقط'
+    ],
+    correct: 2,
+    explanation: 'قبل أي تغيير مسار: فليشر أولاً لتنبيه الآخرين، ثم راجعي المرايا الأمامية والجانبية، ثم تحققي من النقطة العمياء (النظر للخلف).'
+  },
+  {
+    category: 'الأولوية',
+    text: 'عند الدخول إلى دوار (دائري)، من يملك حق الأولوية؟',
+    sign: 'roundabout',
+    options: [
+      'السيارة الأسرع',
+      'السيارة الداخلة إلى الدوار',
+      'السيارات الموجودة داخل الدوار أصلاً',
+      'السيارة على اليمين دائماً'
+    ],
+    correct: 2,
+    explanation: 'السيارات الموجودة داخل الدوار لها الأولوية دائماً. عند الدخول، يجب الانتظار حتى تتاح فجوة آمنة في حركة الدوار.'
+  },
+  {
+    category: 'السلامة',
+    text: 'ما الإجراء الصحيح إذا أصابك نعاس شديد أثناء القيادة؟',
+    sign: null,
+    options: [
+      'تشغيل الموسيقى بصوت عالٍ والاستمرار',
+      'فتح النافذة لدخول الهواء وتكملة الرحلة',
+      'إيقاف السيارة في مكان آمن والراحة قبل مواصلة القيادة',
+      'تناول القهوة وزيادة سرعة المكيف'
+    ],
+    correct: 2,
+    explanation: 'النعاس خطر حقيقي يشبه السكر في التأثير على الانتباه والردود الفعل. الحل الوحيد الآمن هو التوقف والنوم – لا الموسيقى ولا القهوة.'
+  },
+  {
+    category: 'إشارات المرور',
+    text: 'ما معنى العلامة ذات الدائرة الحمراء مع خط أفقي أبيض؟',
+    sign: 'no_entry',
+    options: [
+      'ممنوع الوقوف',
+      'ممنوع الدخول – طريق باتجاه واحد',
+      'تباطأ وأعطِ الأولوية',
+      'منطقة محمية لا تدخلي'
+    ],
+    correct: 1,
+    explanation: 'الدائرة الحمراء مع الشريط الأبيض الأفقي تعني "ممنوع الدخول" – عادةً تُوضع عند مداخل الطرق ذات الاتجاه الواحد من الجهة الخاطئة.'
+  }
+];
+
+// ── SVG signs for questions ─────────────────────────────────────────────────
+function getSignSVG(type) {
+  if (!type) return '';
+  const svgs = {
+    red_light: `<svg viewBox="0 0 80 160"><rect x="15" y="5" width="50" height="150" rx="8" fill="#1a1a1a"/>
+      <circle cx="40" cy="35" r="18" fill="#dc2626"/>
+      <circle cx="40" cy="80" r="18" fill="#f5c518"/>
+      <circle cx="40" cy="125" r="18" fill="#22c55e" opacity="0.3"/>
+      <circle cx="40" cy="35" r="14" fill="#ef4444" opacity="0.8"/>
+    </svg>`,
+    stop: `<svg viewBox="0 0 100 100">
+      <polygon points="30,5 70,5 95,30 95,70 70,95 30,95 5,70 5,30" fill="#dc2626" stroke="#8b0000" stroke-width="3"/>
+      <text x="50" y="55" text-anchor="middle" font-family="Cairo,Arial" font-size="20" font-weight="bold" fill="white">قف</text>
+      <text x="50" y="72" text-anchor="middle" font-family="Arial" font-size="11" fill="rgba(255,255,255,0.8)">STOP</text>
+    </svg>`,
+    warn_triangle: `<svg viewBox="0 0 100 90">
+      <polygon points="50,5 95,85 5,85" fill="#f5c518" stroke="#dc2626" stroke-width="5"/>
+      <text x="50" y="72" text-anchor="middle" font-family="Arial" font-size="36" font-weight="bold" fill="#1a1a1a">!</text>
+    </svg>`,
+    roundabout: `<svg viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" fill="#2e6da4"/>
+      <circle cx="50" cy="50" r="20" fill="white" stroke="#2e6da4" stroke-width="3"/>
+      <text x="50" y="62" text-anchor="middle" font-size="36" fill="white">↺</text>
+    </svg>`,
+    no_entry: `<svg viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" fill="white" stroke="#dc2626" stroke-width="7"/>
+      <rect x="15" y="40" width="70" height="20" fill="#dc2626"/>
+    </svg>`,
+  };
+  return svgs[type] || '';
+}
+
+// ── State ───────────────────────────────────────────────────────────────────
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+let answered = new Array(QUESTIONS.length).fill(false);
+let startTime = Date.now();
+let timerInterval = null;
+let questionTimer = null;
+let timePerQ = 30;
+let timeLeft = timePerQ;
+
+// ── Build UI ─────────────────────────────────────────────────────────────────
+function buildQuiz() {
+  const container = document.getElementById('questions-container');
+  const dotsEl    = document.getElementById('q-dots');
+  container.innerHTML = '';
+  dotsEl.innerHTML = '';
+  startTime = Date.now();
+
+  QUESTIONS.forEach((q, i) => {
+    // Dot
+    const dot = document.createElement('div');
+    dot.className = 'q-dot' + (i === 0 ? ' current' : '');
+    dot.textContent = i + 1;
+    dot.onclick = () => jumpToQuestion(i);
+    dot.id = `dot-${i}`;
+    dotsEl.appendChild(dot);
+
+    // Card
+    const card = document.createElement('div');
+    card.className = 'question-card' + (i === 0 ? ' active' : '');
+    card.id = `q-card-${i}`;
+
+    const letters = ['أ', 'ب', 'ج', 'د'];
+    const optionsHTML = q.options.map((opt, oi) => `
+      <div class="option" id="opt-${i}-${oi}" onclick="selectOption(${i}, ${oi})">
+        <div class="option-letter">${letters[oi]}</div>
+        <span>${opt}</span>
+        <span class="option-icon"></span>
+      </div>
+    `).join('');
+
+    const signHTML = q.sign ? `
+      <div class="sign-display">${getSignSVG(q.sign)}</div>
+    ` : '';
+
+    card.innerHTML = `
+      <div class="q-header">
+        <div class="q-number">${i + 1}</div>
+        <div class="q-category">${q.category}</div>
+      </div>
+      <div class="q-body">
+        ${signHTML}
+        <div class="q-text">${q.text}</div>
+        <div class="options">${optionsHTML}</div>
+        <div class="explanation" id="exp-${i}"></div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  updateNav();
+  updateProgress();
+  startQuestionTimer();
+}
+
+// ── Option selection ─────────────────────────────────────────────────────────
+function selectOption(qIdx, optIdx) {
+  if (answered[qIdx]) return;
+
+  answers[qIdx] = optIdx;
+  answered[qIdx] = true;
+  const q = QUESTIONS[qIdx];
+
+  clearInterval(questionTimer);
+
+  // Style options
+  q.options.forEach((_, oi) => {
+    const el = document.getElementById(`opt-${qIdx}-${oi}`);
+    el.classList.add('disabled');
+    if (oi === q.correct) {
+      el.classList.add('correct');
+      el.querySelector('.option-icon').textContent = '✓';
+    }
+    if (oi === optIdx && oi !== q.correct) {
+      el.classList.add('wrong');
+      el.querySelector('.option-icon').textContent = '✗';
+    }
+  });
+
+  // Show explanation
+  const exp = document.getElementById(`exp-${qIdx}`);
+  exp.textContent = q.explanation;
+  exp.className = 'explanation show ' + (optIdx === q.correct ? 'correct-exp' : 'wrong-exp');
+
+  // Update dot
+  const dot = document.getElementById(`dot-${qIdx}`);
+  dot.classList.remove('current');
+  dot.classList.add(optIdx === q.correct ? 'answered-correct' : 'answered-wrong');
+
+  updateProgress();
+  updateNav();
+
+  // Auto-advance after 1.8s if not last question
+  if (qIdx < QUESTIONS.length - 1) {
+    setTimeout(() => goQuestion(1), 1800);
+  }
+}
+
+// ── Navigation ───────────────────────────────────────────────────────────────
+function goQuestion(dir) {
+  const next = current + dir;
+  if (next < 0 || next >= QUESTIONS.length) return;
+  showQuestion(next);
+}
+
+function jumpToQuestion(idx) {
+  showQuestion(idx);
+}
+
+function showQuestion(idx) {
+  document.getElementById(`q-card-${current}`)?.classList.remove('active');
+  document.getElementById(`dot-${current}`)?.classList.remove('current');
+
+  current = idx;
+  document.getElementById(`q-card-${current}`).classList.add('active');
+  if (!answered[current]) {
+    document.getElementById(`dot-${current}`).classList.add('current');
+    startQuestionTimer();
+  }
+
+  document.getElementById('q-current').textContent = current + 1;
+  updateNav();
+}
+
+function updateNav() {
+  const allAnswered = answered.every(Boolean);
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === QUESTIONS.length - 1;
+  document.getElementById('btn-submit').style.display = allAnswered ? 'block' : 'none';
+  document.getElementById('nav-row').style.display = allAnswered ? 'none' : 'flex';
+}
+
+// ── Progress ─────────────────────────────────────────────────────────────────
+function updateProgress() {
+  const done = answered.filter(Boolean).length;
+  const pct  = (done / QUESTIONS.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = done === 0
+    ? 'ابدئي الاختبار'
+    : done === QUESTIONS.length
+    ? 'أجبتِ على جميع الأسئلة!'
+    : `أجبتِ على ${done} من ${QUESTIONS.length} أسئلة`;
+}
+
+// ── Question timer ────────────────────────────────────────────────────────────
+function startQuestionTimer() {
+  clearInterval(questionTimer);
+  if (answered[current]) return;
+  timeLeft = timePerQ;
+  updateTimerUI();
+
+  questionTimer = setInterval(() => {
+    timeLeft--;
+    updateTimerUI();
+    if (timeLeft <= 0) {
+      clearInterval(questionTimer);
+      // Auto-select wrong (no answer) — mark as answered with -1
+      if (!answered[current]) {
+        answered[current] = true;
+        answers[current] = -1; // timed out
+        // Show correct answer
+        const q = QUESTIONS[current];
+        q.options.forEach((_, oi) => {
+          const el = document.getElementById(`opt-${current}-${oi}`);
+          el.classList.add('disabled');
+          if (oi === q.correct) el.classList.add('correct');
+        });
+        const exp = document.getElementById(`exp-${current}`);
+        exp.textContent = '⏱ انتهى وقت هذا السؤال. ' + q.explanation;
+        exp.className = 'explanation show wrong-exp';
+        const dot = document.getElementById(`dot-${current}`);
+        dot.classList.remove('current');
+        dot.classList.add('answered-wrong');
+        updateProgress();
+        updateNav();
+        if (current < QUESTIONS.length - 1) {
+          setTimeout(() => goQuestion(1), 2000);
+        }
+      }
+    }
+  }, 1000);
+}
+
+function updateTimerUI() {
+  document.getElementById('timer-num').textContent = timeLeft;
+  const pct = (timeLeft / timePerQ) * 100;
+  const deg = pct * 3.6;
+  const color = timeLeft > 10 ? '#e8832a' : '#dc2626';
+  document.getElementById('timer-circle').style.background =
+    `conic-gradient(${color} ${deg}deg, #e2eaf3 ${deg}deg)`;
+}
+
+// ── Submit ────────────────────────────────────────────────────────────────────
+function submitQuiz() {
+  clearInterval(questionTimer);
+  const elapsed = Math.round((Date.now() - startTime) / 1000);
+  const mins    = Math.floor(elapsed / 60);
+  const secs    = elapsed % 60;
+  const timeStr = mins > 0 ? `${mins}د ${secs}ث` : `${secs}ث`;
+
+  const correct = answers.filter((a, i) => a === QUESTIONS[i].correct).length;
+  const wrong   = QUESTIONS.length - correct;
+  const pct     = Math.round((correct / QUESTIONS.length) * 100);
+
+  // Hide quiz
+  document.getElementById('q-dots').style.display = 'none';
+  document.getElementById('questions-container').style.display = 'none';
+  document.getElementById('nav-row').style.display = 'none';
+  document.getElementById('btn-submit').style.display = 'none';
+
+  // Show results
+  const rs = document.getElementById('results-screen');
+  rs.classList.add('show');
+
+  // Score ring animation
+  const circle = document.getElementById('score-circle');
+  const circumference = 377;
+  const offset = circumference - (pct / 100) * circumference;
+  const ringColor = pct >= 70 ? '#16a34a' : pct >= 50 ? '#e8832a' : '#dc2626';
+  circle.style.stroke = ringColor;
+  setTimeout(() => { circle.style.strokeDashoffset = offset; }, 100);
+
+  document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('score-pct').style.color = ringColor;
+
+  let title, sub;
+  if (pct >= 80) { title = '🏆 ممتاز!'; sub = 'أداء رائع – أنتِ جاهزة للاختبار العملي'; }
+  else if (pct >= 60) { title = '👍 جيد'; sub = 'نتيجة جيدة، مراجعة الأسئلة الخاطئة ستساعدك'; }
+  else { title = '📚 تحتاجين مراجعة'; sub = 'راجعي المادة النظرية وأعيدي الاختبار'; }
+
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-sub').textContent   = sub;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent   = wrong;
+  document.getElementById('r-time').textContent    = timeStr;
+
+  // Review list
+  const reviewEl = document.getElementById('review-list');
+  reviewEl.innerHTML = QUESTIONS.map((q, i) => {
+    const isCorrect = answers[i] === q.correct;
+    const timedOut  = answers[i] === -1;
+    const letters   = ['أ', 'ب', 'ج', 'د'];
+    return `
+      <div class="review-item">
+        <div class="review-item-header">
+          <div class="review-status ${isCorrect ? 'c' : 'w'}">${isCorrect ? '✓' : '✗'}</div>
+          <div class="review-q-text">س${i + 1}: ${q.text}</div>
+        </div>
+        <div class="review-item-body">
+          ${!isCorrect ? `<div class="review-answer"><span class="ra-label">إجابتك:</span><span class="ra-val-wrong">${timedOut ? 'لم تُجيبي (انتهى الوقت)' : letters[answers[i]] + ' – ' + q.options[answers[i]]}</span></div>` : ''}
+          <div class="review-answer"><span class="ra-label">الإجابة الصحيحة:</span><span class="ra-val-correct">${letters[q.correct]} – ${q.options[q.correct]}</span></div>
+          <div style="margin-top:6px;color:#475569;">💡 ${q.explanation}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── Retry ─────────────────────────────────────────────────────────────────────
+function retryQuiz() {
+  answers  = new Array(QUESTIONS.length).fill(null);
+  answered = new Array(QUESTIONS.length).fill(false);
+  current  = 0;
+
+  document.getElementById('results-screen').classList.remove('show');
+  document.getElementById('q-dots').style.display = 'flex';
+  document.getElementById('questions-container').style.display = 'block';
+  document.getElementById('nav-row').style.display = 'flex';
+  document.getElementById('score-circle').style.strokeDashoffset = '377';
+
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+buildQuiz();
+</script>
+
+</body>
+</html>
